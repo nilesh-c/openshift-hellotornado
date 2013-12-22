@@ -31,21 +31,21 @@ function build_nginx()
 	echo "Downloading $PCRE_NAME and $NGINX_NAME sources..."
 	echo "----------------------------------------------------------------------------------"
 	cd ${BUILD_DIR}
-	wget ${PCRE_URL}
-	wget ${NGINX_URL}
+	wget ${PCRE_URL} >/dev/null 2>&1
+	wget ${NGINX_URL} >/dev/null 2>&1
 
 	echo "Decompressing tar.gz files..."
 	echo "----------------------------------------------------------------------------------"
-	tar xvf ${PCRE_NAME}.tar.gz
-	tar xvf ${NGINX_NAME}.tar.gz
+	tar xf ${PCRE_NAME}.tar.gz
+	tar xf ${NGINX_NAME}.tar.gz
 
-        echo "Running configure script..."
-        echo "----------------------------------------------------------------------------------"
+    echo "Running configure script..."
+    echo "----------------------------------------------------------------------------------"
 	cd ${NGINX_NAME}
-	./configure --prefix=${INSTALL_DIR}/nginx --with-pcre=${PCRE_BUILD_DIR} --with-http_ssl_module 
-	make
-	make install
-	make clean
+	./configure --prefix=${INSTALL_DIR}/nginx --with-pcre=${PCRE_BUILD_DIR} --with-http_ssl_module >/dev/null 2>&1
+	make >/dev/null 2>&1
+	make install >/dev/null 2>&1
+	make clean >/dev/null 2>&1
 
 	mkdir -p ${INSTALL_DIR}/nginx/run
 
@@ -56,8 +56,11 @@ function build_nginx()
 
 function check_and_install_nginx()
 {
-	if [[ ! -e ${INSTALL_DIR}/nginx/sbin/nginx ]]; then
+	if [[ ! -e ${INSTALL_DIR}/nginx/sbin/nginx ]]
+    then
 		build_nginx
+    else
+        echo "Nginx is already installed. Not continuing with build..."
 	fi
 }
 

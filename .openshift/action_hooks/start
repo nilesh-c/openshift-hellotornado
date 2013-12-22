@@ -6,12 +6,13 @@ nohup ${OPENSHIFT_REPO_DIR}/diy/hellotornado.py > ${OPENSHIFT_DIY_LOG_DIR}/hello
 TEMPLATES_DIR=${OPENSHIFT_REPO_DIR}/.openshift/templates
 INSTALL_DIR=${OPENSHIFT_DATA_DIR}
 
-#Start up nginx if not running; reload configuration if already running (safer, no downtime)
+#Start up nginx if not running; reload configuration if already running (safer, no downtime).
 if [ -z "$(ps aux | grep  nginx | grep -v grep)" ]
 then
-    echo "Reloading nginx."
-    ${INSTALL_DIR}/nginx/sbin/nginx -s reload
-else
+    #No nginx process exists, start it.
     echo "Starting nginx."
     nohup ${INSTALL_DIR}/nginx/sbin/nginx > ${INSTALL_DIR}/nginx/logs/server.log 2>&1 &
+else
+    echo "Reloading nginx."
+    ${INSTALL_DIR}/nginx/sbin/nginx -s reload
 fi
