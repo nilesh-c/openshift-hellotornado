@@ -1,5 +1,17 @@
 #!/bin/bash
-# The logic to start up your application should be put in this
-# script. The application will work only if it binds to
-# $OPENSHIFT_DIY_IP:8080
+
+echo "Starting up tornado web server."
 nohup ${OPENSHIFT_REPO_DIR}/diy/hellotornado.py > ${OPENSHIFT_DIY_LOG_DIR}/hellotornado.log 2>&1 &
+
+TEMPLATES_DIR=${OPENSHIFT_REPO_DIR}/.openshift/templates
+INSTALL_DIR=${OPENSHIFT_DATA_DIR}
+
+#Start up nginx if not running; reload configuration if already running (safer, no downtime)
+if [ -z "$(ps aux | grep  nginx | grep -v grep)" ]
+then
+    echo "Reloading nginx."
+    ${INSTALL_DIR}/nginx/sbin/nginx -s reload
+else
+    echo "Starting nginx."
+    nohup ${INSTALL_DIR}/nginx/sbin/nginx > ${INSTALL_DIR}/nginx/logs/server.log 2>&1 &
+fi

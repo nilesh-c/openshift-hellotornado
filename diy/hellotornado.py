@@ -6,4 +6,4 @@ virtualenv = os.path.join(cwd, '..', 'misc/virtenv/bin/activate_this.py')
 execfile(virtualenv, dict(__file__=virtualenv))
 
 import app
-app.main(os.environ['15000'])
+app.main(os.environ['OPENSHIFT_DIY_IP'])
