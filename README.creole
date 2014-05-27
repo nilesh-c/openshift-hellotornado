@@ -1,5 +1,7 @@
 == Tornado on OpenShift ==
 
+NOTE: This fork contains some corrections to the nginx conf and is a WIP.
+
 Tornado is an open source version of the scalable, non-blocking web server and tools that power FriendFeed.
 
 This article describes how to deploy a Tornado web application on OpenShift. It has been updated to leverage the [[https://www.redhat.com/openshift/community/blogs/new-openshift-release-march-22-2012-nodejs-diy-cartridge-new-website-and-more|DIY cartridge]] introduced in late March. We will deploy Tornado in a custom tailored virtualenv.
